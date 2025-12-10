@@ -2,9 +2,12 @@ import argparse
 
 parser = argparse.ArgumentParser(description="Ćwicze se argparsera tako")
 
-# parser.add_argument("file", help="Ścieżka do plika")
-parser.add_argument("-e", "--epochs", help="Liczba epok", type=int)
-parser.add_argument("-lr", "--learningrate", help="Learning rate", type=float)
+parser.add_argument("file", help="Ścieżka do plika")
+# parser.add_argument("-e", "--epochs", help="Liczba epok", type=int, action="append")
+parser.add_argument(
+    "-e", "--epochs", help="epohy", type=int, action="extend", nargs="*"
+)
+# parser.add_argument("-lr", "--learningrate", help="Learning rate", type=float)
 # parser.add_argument("-bs", "--batch_size", default=32)
 # parser.add_argument("-m", "--mode", choices=["SZYPKI", "WOLMY"])
 # parser.add_argument("-ug", "--use_gpu", action="store_true")
@@ -18,7 +21,7 @@ parser.add_argument("-lr", "--learningrate", help="Learning rate", type=float)
 # parser.add_argument("-lrv", "--learning_rate_value", dest="LRValue")
 # parser.add_argument("--version", action="version", version="v1.0.0")
 
-args = parser.parse_args(["--epochs", "10", "-lr", "3.14"])
+args = parser.parse_args()
 
 print(args)
 # config = vars(args)
@@ -38,5 +41,6 @@ print(args)
 # print(args.log)
 # print(args.LRValue)
 # print(args.version)
+# print(args.epochs)
+# print(args.learningrate)
 print(args.epochs)
-print(args.learningrate)
