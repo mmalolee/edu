@@ -1,6 +1,11 @@
 import itertools
 
-seq1 = [1, 2]
-seq2 = [1, 2, 3, 4]
-padded = list(itertools.zip_longest(seq1, seq2, fillvalue=2222))
-print(padded)
+data = ["Normalizacja", "Standaryzacja", "Ewaluacja", "Kredensacja"]
+
+
+for order in itertools.permutations(data):
+    print(f"Pipeline order: {order}")
+
+
+for order in itertools.permutations(data, 3):
+    print(f"Pipeline order: {order}")
