@@ -64,16 +64,48 @@
 # # ⏱️ Czas operacji: 2.0021 sekundy.
 
 
+# import functools
+
+
+# def train_model(data, lr, optimizer):
+#     print(f"Trenowanie: LR={lr}, Opt={optimizer}, dane: {data}")
+
+
+# # Tworzymy gotowy wariant pod konkretny eksperyment
+# # Zamrażamy learning_rate i optimizer, zostawiamy tylko 'data'
+# run_baseline = functools.partial(train_model, lr=2137, optimizer="piwo")
+
+# # W pętli głównej podajemy już tylko dane
+# run_baseline(data="perła.csv")
+
+
+import time
 import functools
 
 
-def train_model(data, lr, optimizer):
-    print(f"Trenowanie: LR={lr}, Opt={optimizer}")
+@functools.lru_cache(maxsize=1024)
+def get_embedding(text):
+    # symulacja kosztownego kroku
+    # wynik zostanie przeliczony tylko raz
+    return  # embeding
 
 
-# Tworzymy gotowy wariant pod konkretny eksperyment
-# Zamrażamy learning_rate i optimizer, zostawiamy tylko 'data'
-run_baseline = functools.partial(train_model, lr=0.02, optimizer="Adam")
+def time_logger(func):
+    # Bez tego func.__name__ zwróciłoby 'wrapper'
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        print(f"Funkcja {func.__name__} wykonana.")
+        return result
 
-# W pętli głównej podajemy już tylko dane
-run_baseline(data="dataset_v1.csv")
+    return wrapper
+
+
+@time_logger
+def train_step(batch):
+    """Wykonuje jeden krok treningowy."""
+    print(train_step.__name__)
+    print(train_step.__doc__)
+
+
+train_step("elo")
