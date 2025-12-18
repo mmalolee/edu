@@ -72,40 +72,56 @@
 
 
 # # Tworzymy gotowy wariant pod konkretny eksperyment
-# # Zamrażamy learning_rate i optimizer, zostawiamy tylko 'data'
-# run_baseline = functools.partial(train_model, lr=2137, optimizer="piwo")
+# # # Zamrażamy learning_rate i optimizer, zostawiamy tylko 'data'
+# # run_baseline = functools.partial(train_model, lr=2137, optimizer="piwo")
 
-# # W pętli głównej podajemy już tylko dane
-# run_baseline(data="perła.csv")
+# # # W pętli głównej podajemy już tylko dane
+# # run_baseline(data="perła.csv")
 
 
-import time
+# import time
+# import functools
+
+
+# @functools.lru_cache(maxsize=1024)
+# def get_embedding(text):
+#     # symulacja kosztownego kroku
+#     # wynik zostanie przeliczony tylko raz
+#     return  # embeding
+
+
+# def time_logger(func):
+#     # Bez tego func.__name__ zwróciłoby 'wrapper'
+#     @functools.wraps(func)
+#     def wrapper(*args, **kwargs):
+#         """
+#         doc z wrapera
+#         """
+#         start = time.time()
+#         result = func(*args, **kwargs)
+#         print(f"Funkcja {func.__name__} wykonana.")
+#         return result
+
+#     return wrapper
+
+
+# @time_logger
+# def train_step(batch):
+#     """Wykonuje jeden krok treningowy."""
+#     print(train_step.__name__)
+#     print(train_step.__doc__)
+
+
+# train_step("elo")
+
 import functools
 
+# Wymiary obrazka w batchu: [Batch, Channels, Height, Width]
+tensor_shape = [32, 3, 224, 224]
 
-@functools.lru_cache(maxsize=1024)
-def get_embedding(text):
-    # symulacja kosztownego kroku
-    # wynik zostanie przeliczony tylko raz
-    return  # embeding
+# Obliczamy całkowitą liczbę elementów (tzw. numel) mnożąc wymiary
+# lambda x, y: x * y -> mnoży dotychczasowy wynik (x) przez kolejny element (y)
+total_elements = functools.reduce(lambda x, y: x * y, tensor_shape)
 
-
-def time_logger(func):
-    # Bez tego func.__name__ zwróciłoby 'wrapper'
-    def wrapper(*args, **kwargs):
-        start = time.time()
-        result = func(*args, **kwargs)
-        print(f"Funkcja {func.__name__} wykonana.")
-        return result
-
-    return wrapper
-
-
-@time_logger
-def train_step(batch):
-    """Wykonuje jeden krok treningowy."""
-    print(train_step.__name__)
-    print(train_step.__doc__)
-
-
-train_step("elo")
+print(f"Liczba elementów do wczytania: {total_elements}")
+# Wynik: 32 * 3 * 224 * 224 = 4,816,896
